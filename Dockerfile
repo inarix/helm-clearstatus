@@ -1,5 +1,7 @@
-FROM klakegg/hugo AS hugo
+FROM klakegg/hugo:alpine-ci AS hugo
 WORKDIR /target
 RUN mkdir -p /target/themes
+RUN apk add git
 COPY . /target
-ADD https://github.com/weeblrpress/clearstatustheme	/target/themes/clearstatustheme/
+RUN git clone https://github.com/weeblrpress/clearstatustheme	/target/themes/clearstatustheme/
+ENTRYPOINT [ "hugo", "server" ]
