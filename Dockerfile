@@ -1,6 +1,5 @@
-FROM klakegg/hugo:0.101.0-ci AS hugo
+FROM klakegg/hugo AS hugo
 WORKDIR /target
-
-ADD https://github.com/weeblrpress/clearstatustheme	/target/themes
+RUN mkdir -p /target/themes
 COPY . /target
-CMD ["hugo", "serve"]
+ADD https://github.com/weeblrpress/clearstatustheme	/target/themes/clearstatustheme/
