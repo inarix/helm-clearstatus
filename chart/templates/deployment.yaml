@@ -31,7 +31,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: eu.gcr.io/tf-infrastructure-ml/clear-status
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
