@@ -1,9 +1,40 @@
-on:
- pull_request:
-  types:
-    - closed
+on: 
+  push:
+    branches:
+      - dev
 jobs:
   ci:
     runs-on: ubuntu-latest
-
-  
+    steps:
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0"
+        with:
+          # Replace with your Workload Identity Provider Location
+          workload_identity_provider: "projects/496410792876/locations/global/workloadIdentityPools/gh-pool/providers/gh-provider"
+          # Replace with your GitHub Service Account
+          service_account: "github-action@tf-infrastructure-ml.iam.gserviceaccount.com"
+      - name: Chechout code
+        run: actions/checkout@v3
+      - name: build docker image
+        run: |
+          docker build -t eu.gcr.io/tf-infrastructure-ml/status-page:latest .
+          docker push eu.gcr.io/tf-infrastructure-ml/status-page:latest
+      - name: argocd-restart-aplication
+        id: restartApp
+        uses: inarix/ga-argocd-action@v2
+        with:
+          argocdToken: ${{secrets.ARGOCD_TOKEN}}
+          argocdEndpoint: "https://argocd.inarix.com"
+          destClusterName: "in-cluster"
+          applicationName: "status-page"
+          helmChartName: "status-page"
+          helmChartVersion: "0.1.0"
+          helmRepoUrl: "https://charts.inarix.com"
+          actionName: "restart"
+      - name: Send update slack message as notification
+        uses: archive/github-actions-slack@v2.4.0
+        with:
+          slack-bot-user-oauth-access-token: ${{secrets.SLACK_API_TOKEN}}
+          slack-channel: ${{ secrets.TARS_SLACK_CHANNEL_ID }}
+          slack-text: "New status page update :rocket:"
