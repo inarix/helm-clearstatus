@@ -25,26 +25,57 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "clearstatus.serviceAccountName" . }}
+      volumes:
+      - name: hugo-content
+        emptyDir: {}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Release.Name }}-backend
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: eu.gcr.io/tf-infrastructure-ml/clear-status-backend
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+          - name: hugo-content
+            mountPath: /content/default/issues
+          ports:
+            - name: flask
+              containerPort: 5000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: flask
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: flask
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        - name: {{ .Release.Name }}-ui
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: eu.gcr.io/tf-infrastructure-ml/clear-status
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Release.Name }}-secret
+          volumeMounts:
+          - name: hugo-content
+            mountPath: /content/default/issues 
           ports:
-            - name: http
+            - name: hugo
               containerPort: 1313
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: hugo
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: hugo
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
