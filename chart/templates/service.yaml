@@ -7,6 +7,10 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
+    - port: 5000
+      targetPort: 5000
+      protocol: TCP
+      name: backend
     - port: 80
       targetPort: 1313
       protocol: TCP

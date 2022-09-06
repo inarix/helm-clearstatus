@@ -36,9 +36,12 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: eu.gcr.io/tf-infrastructure-ml/clear-status-backend
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Release.Name }}-secret
           volumeMounts:
           - name: hugo-content
-            mountPath: /content/default/issues
+            mountPath: {{ .Values.app.mount_path }}
           ports:
             - name: flask
               containerPort: 5000
@@ -58,12 +61,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: eu.gcr.io/tf-infrastructure-ml/clear-status
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          envFrom:
-            - secretRef:
-                name: {{ .Release.Name }}-secret
           volumeMounts:
           - name: hugo-content
-            mountPath: /content/default/issues 
+            mountPath: {{ .Values.app.mount_path }}
           ports:
             - name: hugo
               containerPort: 1313

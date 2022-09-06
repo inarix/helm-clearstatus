@@ -5,11 +5,10 @@
 replicaCount: 1
 
 app:
-  # run python -c 'import secrets; print(secrets.token_hex())' to create one
   databaseId: ""
   # notionApiToken -- Used by PNX to handle fetching pages and queryDatabase
   notionApiToken: ""
-  
+  mount_path: "/target/content/default/issues"
 
 image:
   pullPolicy: Always
@@ -31,10 +30,12 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
@@ -51,13 +52,11 @@ ingress:
     # name of the secret that contains the user/password definitions
     nginx.ingress.kubernetes.io/auth-secret: clearstatus-auth
     # message to display with an appropriate context why the authentication is required
-    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - clear-status'
-  hosts:
-    - host: status.inarix.com
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
+    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - clear-status"
   tls:
+    - secretName: status-backend-tls
+      hosts:
+        - backend.status.inarix.com
     - secretName: status-tls
       hosts:
         - status.inarix.com
