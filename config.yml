@@ -38,7 +38,7 @@ params:
   # Set it for instance to " UTC" to indicate UTC times
   # or a specific time zone, ie " America/New_York"
   # You can also instead used a translated string per language
-  timezoneString: " UTC"
+  timezoneString: " Europe/Paris"
 
   # Path to logo image from the /static folder.
   logo: "/images/clearstatus.svg"
