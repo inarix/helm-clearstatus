@@ -1,4 +1,4 @@
-on: 
+on:
   push:
     branches:
       - dev
@@ -10,7 +10,7 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - run: actions/checkout@v3
+      - uses: actions/checkout@v3
       - id: "auth"
         name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v0"
