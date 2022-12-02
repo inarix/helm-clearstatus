@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - dev
+      - master
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -18,8 +19,9 @@ jobs:
         run: actions/checkout@v3
       - name: build docker image
         run: |
-          docker build -t eu.gcr.io/tf-infrastructure-ml/status-page:latest .
-          docker push eu.gcr.io/tf-infrastructure-ml/status-page:latest
+          docker build -t eu.gcr.io/tf-infrastructure-ml/status-page:${{github.sha}} .
+          docker tag eu.gcr.io/tf-infrastructure-ml/status-page:${{github.sha}} eu.gcr.io/tf-infrastructure-ml/status-page:latest
+          docker push eu.gcr.io/tf-infrastructure-ml/status-page:${{github.sha}} eu.gcr.io/tf-infrastructure-ml/status-page:latest
       - name: argocd-restart-aplication
         id: restartApp
         uses: inarix/ga-argocd-action@v2
@@ -29,7 +31,7 @@ jobs:
           destClusterName: "in-cluster"
           applicationName: "status-page"
           helmChartName: "status-page"
-          helmChartVersion: "0.1.0"
+          helmChartVersion: "1.1.1"
           helmRepoUrl: "https://charts.inarix.com"
           actionName: "restart"
       - name: Send update slack message as notification

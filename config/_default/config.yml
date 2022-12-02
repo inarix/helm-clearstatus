@@ -3,7 +3,7 @@
 ############################################################
 
 # Your deployed site URL. Not needed in many cases.
-# baseUrl: "http://localhost:1313/"
+baseUrl: "https://status.inarix.com/"
 
 # Required for scheduled items
 buildFuture: true
