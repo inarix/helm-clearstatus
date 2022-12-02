@@ -21,10 +21,10 @@ jobs:
           service_account: "github-action@tf-infrastructure-ml.iam.gserviceaccount.com"
       - name: build docker image
         run: |
-          docker build -t eu.gcr.io/tf-infrastructure-ml/status-page:${{github.sha}} .
-          docker tag eu.gcr.io/tf-infrastructure-ml/status-page:${{github.sha}} eu.gcr.io/tf-infrastructure-ml/status-page:latest
-          docker push eu.gcr.io/tf-infrastructure-ml/status-page:${{github.sha}} 
-          docker push eu.gcr.io/tf-infrastructure-ml/status-page:latest
+          docker build -t eu.gcr.io/tf-infrastructure-ml/clear-status:${{github.sha}} .
+          docker tag eu.gcr.io/tf-infrastructure-ml/clear-status:${{github.sha}} eu.gcr.io/tf-infrastructure-ml/clear-status:latest
+          docker push eu.gcr.io/tf-infrastructure-ml/clear-status:${{github.sha}} 
+          docker push eu.gcr.io/tf-infrastructure-ml/clear-status:latest
       - name: argocd-restart-aplication
         id: restartApp
         uses: inarix/ga-argocd-action@v2
