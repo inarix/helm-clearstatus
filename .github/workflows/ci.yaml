@@ -23,7 +23,8 @@ jobs:
         run: |
           docker build -t eu.gcr.io/tf-infrastructure-ml/status-page:${{github.sha}} .
           docker tag eu.gcr.io/tf-infrastructure-ml/status-page:${{github.sha}} eu.gcr.io/tf-infrastructure-ml/status-page:latest
-          docker push eu.gcr.io/tf-infrastructure-ml/status-page:${{github.sha}} eu.gcr.io/tf-infrastructure-ml/status-page:latest
+          docker push eu.gcr.io/tf-infrastructure-ml/status-page:${{github.sha}} 
+          docker push eu.gcr.io/tf-infrastructure-ml/status-page:latest
       - name: argocd-restart-aplication
         id: restartApp
         uses: inarix/ga-argocd-action@v2
