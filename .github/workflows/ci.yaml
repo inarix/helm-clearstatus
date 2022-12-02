@@ -29,7 +29,7 @@ jobs:
           destClusterName: "in-cluster"
           applicationName: "status-page"
           helmChartName: "status-page"
-          helmChartVersion: "0.1.0"
+          helmChartVersion: "1.1.1"
           helmRepoUrl: "https://charts.inarix.com"
           actionName: "restart"
       - name: Send update slack message as notification
