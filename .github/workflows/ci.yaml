@@ -10,6 +10,7 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
+      - run: actions/checkout@v3
       - id: "auth"
         name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v0"
@@ -18,8 +19,6 @@ jobs:
           workload_identity_provider: "projects/496410792876/locations/global/workloadIdentityPools/gh-pool/providers/gh-provider"
           # Replace with your GitHub Service Account
           service_account: "github-action@tf-infrastructure-ml.iam.gserviceaccount.com"
-      - name: Chechout code
-        run: actions/checkout@v3
       - name: build docker image
         run: |
           docker build -t eu.gcr.io/tf-infrastructure-ml/status-page:${{github.sha}} .
