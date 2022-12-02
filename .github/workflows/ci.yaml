@@ -3,6 +3,9 @@ on:
     branches:
       - dev
       - master
+permissions:
+  id-token: write
+
 jobs:
   ci:
     runs-on: ubuntu-latest
