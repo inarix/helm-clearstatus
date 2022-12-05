@@ -7,7 +7,7 @@ draft: false
 date: 2019-04-12
 
 # Status: "resolved" | "in_progress" | "scheduled"
-status: "scheduled"
+status: "resolved"
 
 # This message will be taken out of the flow of events
 # and displayed at top of page or below the header
@@ -27,7 +27,7 @@ max_severity: down
 current_severity: down
 
 # Full date: 2019-03-29 17:26:09
-resolved_on:
+resolved_on: 2019-03-29 17:26:09
 
 # Affected components, must use exact names defined in site config
 affected:
@@ -54,6 +54,7 @@ affected:
 #    https://twitter.com/i/moments/625792726546558977
 #
 twitterFeed:
+  - https://twitter.com/weeblrpress
 
 # Enable Disqus commenting on this page. This will only works if 
 # you added your Disqus identifier in the global config.yml file
