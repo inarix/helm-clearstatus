@@ -28,11 +28,6 @@ disableKinds:
   - taxonomyTerm
   - sitemap
 
-blackfriday:
-  extensions:
-    - hardLineBreak
-  extensionsmask:
-    - joinLines
 
 # NetlifyCMS support
 mediaTypes:
